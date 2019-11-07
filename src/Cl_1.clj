@@ -1,19 +1,10 @@
-(defn getStr
-  ([array n] (filter #(not= % nil) (getStr array [] n)))
-  ([array result n]
-   (flatten (map
-              (fn [item]
-                (when (not= item (peek result))
-                  (if (= (dec n) 0)
-                    (clojure.string/join "" (conj result item))
-                    (getStr array (conj result item) (dec n))
-                    )
-                  )
-                )
-              (clojure.string/split (clojure.string/join ", " array) #", "))
-            )
-   )
-  )
+(defn getStr [array result n]
+  (if (= 0 n)
+    result
+    (recur array (mapcat
+                   (fn [prev]
+                     (map (fn [l] (cons l prev)) (filter (fn [x] (not= x (first prev))) array)))
+                   result
+                   ) (dec n))))
 
-(println (getStr [\a {} 5] 3))
-(println (getStr [\a \b \c \d] 2))
+(println (getStr `(:a :b :C) `(()) 3))

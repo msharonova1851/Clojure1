@@ -7,4 +7,4 @@
                    result
                    ) (dec n))))
 
-(println (getStr `(:a :b :C) `(()) 3))
+(println (getStr `(:a {} 2) `(()) 3))
